@@ -3,6 +3,9 @@ import AdminSidebar from "../components/AdminSidebar";
 import { FaRegBell } from "react-icons/fa";
 import user from "../assests/user-picture.png";
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
+import data from "../assests/data.json";
+import { BarChart, DoughNutChart } from "../components/Charts";
+import { BiMaleFemale } from "react-icons/bi";
 
 const Dashboard = () => {
   return (
@@ -51,13 +54,45 @@ const Dashboard = () => {
           <div className="revenueChart">
             <h2>Revenue & Transaction</h2>
             {/* Graph Here */}
+            <BarChart
+              data_1={[300, 56, 535, 345, 345, 545]}
+              data_2={[300, 56, 535, 345, 345, 689]}
+              bgColor_1="red"
+              bgColor_2="green"
+              title_1="How"
+              title_2="fsgd"
+              // horizontal={true}
+            />
           </div>
           <div className="dashboardCategories">
             <h2>Inventory</h2>
             <div>
-              <CategoryItem heading="Laptops" value={70} color="red" />
+              {data.categories.map((ele, i) => (
+                <CategoryItem
+                  key={`${Date.now()}+${i}`}
+                  heading={ele.heading}
+                  value={ele.value}
+                  color={`hsl(${ele.value},${ele.value}%,50%)`}
+                />
+              ))}
             </div>
           </div>
+        </section>
+        <section className="transaction-container">
+          <div className="gender-chart">
+            <h2>Gender Ratio</h2>
+            {/* Chart */}
+            <DoughNutChart
+              labels={["Female", "Male"]}
+              data={[12, 19]}
+              backgroundColor={["hsl(340,82%,56%)", "hsl(53,162,235,0.8)"]}
+              cutout={90}
+            />
+            <p>
+              <BiMaleFemale />
+            </p>
+          </div>
+          {/* Table */}
         </section>
       </main>
     </div>
@@ -118,7 +153,7 @@ const CategoryItem = ({ color, value, heading }: CategoryItemProps) => (
     <div>
       <div style={{ background: color, width: `${value}%` }}></div>
     </div>
-    <span>{value}</span>
+    <span>{value}%</span>
   </div>
 );
 
